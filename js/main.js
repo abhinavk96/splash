@@ -103,16 +103,22 @@ var updateWeapons = function(modifier) {
         else {
             ball.current = 1;
         }
-        if (ball.x>canvas.width-200){
+        if (ball.x>canvas.width-220){
             ball.current=2;
             ball.active = false;
             
         }
     }
     else {
-        // fireBalls.splice(fireBalls.indexOf(ball),1);
+        // destroy(ball, fireBalls);
     }
     });
+}
+
+var destroy = function(object, array) {
+    setInterval(function(){
+        array.splice(array.indexOf(object),1);        
+    }, 1000);
 }
 
 function launchFireBall(){
@@ -145,13 +151,9 @@ var render = function () {
 var main = function () {
 	var now = Date.now();
 	var delta = now - then;
-
 	update(delta / 1000);
 	render();
-
 	then = now;
-
-	// Request to do this again ASAP
 	requestAnimationFrame(main);
 };
 
