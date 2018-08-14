@@ -35,7 +35,10 @@ var player1 = {
     speed: 256,
     x:0,
     y:0,
-    attacking: false
+    attacking: false,
+    width: 50,
+    height: 100,
+    directionLR:1
 }
 
 //Player input
@@ -51,7 +54,13 @@ addEventListener("keyup", function (e) {
     if (e.keyCode == 70){
         fireBallActive = false;
         setInterval(function(){
-            spriteImage.src="images/ninja-1.png";
+            if(player1.directionLR){
+                spriteImage.src="images/ninja-1.png";
+            }
+            else{
+                spriteImage.src="images/ninja-i1.png";                
+            }
+            player1.width=50;
         },600);
         
     }
@@ -75,15 +84,40 @@ var update = function(modifier) {
     fireBalls.push(newFireBall);
     console.log("Ball fired");
     fireBallActive = true;
-    spriteImage.src="images/ninja-2.png";
+    if(player1.directionLR){
+        spriteImage.src="images/ninja-2.png";
+    }
+    else {
+    spriteImage.src="images/ninja-i2.png";        
+    }
+    player1.width = 75
     }
  }
 
  if (37 in keysDown) {
     player1.x -= player1.speed * modifier;
+    player1.directionLR = 0;
+    player1.width = 50    
+    if (player1.x%40 < 20){
+        spriteImage.src="images/ninja-i3.png";
+
+    }
+    else {
+    spriteImage.src="images/ninja-i4.png";                
+    }
  }
  if (39 in keysDown) {
     player1.x += player1.speed * modifier;
+    player1.width = 50
+    
+    player1.directionLR = 1
+    if (player1.x%40 < 20){
+        spriteImage.src="images/ninja-3.png";
+
+    }
+    else {
+    spriteImage.src="images/ninja-4.png";                
+    }
  }
 
 
@@ -126,7 +160,7 @@ function launchFireBall(){
         speed:212,
         x:player1.x,
         y:player1.y,
-        direction: 2,
+        direction: player1.directionLR,
         current: 0,
         active:true
     }
@@ -140,7 +174,7 @@ var render = function () {
 		ctx.drawImage(bgImage, 0, 0);
     }
     if (spriteReady) {
-		ctx.drawImage(spriteImage, player1.x, player1.y);
+		ctx.drawImage(spriteImage, player1.x, player1.y, player1.width, player1.height);
     }
     fireBalls.forEach(ball => {
 	    ctx.drawImage(fireBallImages[ball.current], ball.x, ball.y);            
