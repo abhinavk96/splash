@@ -8,6 +8,7 @@ document.body.appendChild(canvas);
 console.log("Canvas Created");
 
 //Backgorund image
+var gravity = true;
 var bgReady = false;
 var bgImage = new Image();
 bgImage.onload = function () {
@@ -15,6 +16,12 @@ bgImage.onload = function () {
 }
 bgImage.src = "images/bg.jpg";
 
+var groundReady = false;
+var ground = new Image();
+ground.onload = function() {
+    groundReady = true;
+}
+ground.src = "images/ground-big.png";
 //sprite image
 var spriteReady = false;
 var spriteImage = new Image();
@@ -204,11 +211,16 @@ function launchFireBall(){
 // Draw everything
 var render = function () {
 	if (bgReady) {
-		ctx.drawImage(bgImage, 0, 0);
+        ctx.drawImage(bgImage, 0, 0);        
     }
     if (spriteReady) {
 		ctx.drawImage(spriteImages[player1.current], player1.x, player1.y, player1.width, player1.height);
     }
+    if (groundReady) {
+    ctx.drawImage(ground, 0, window.innerHeight-200, window.innerWidth, 200);
+    }
+    // ctx.drawImage(ground, 0, window.innerHeight-200);    
+    
     fireBalls.forEach(ball => {
 	    ctx.drawImage(fireBallImages[ball.current], ball.x, ball.y);            
     });
