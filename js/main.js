@@ -19,10 +19,16 @@ isCollidigAbove = function() {
 }
 isPlayerOnSurface = function(){
     console.log(player1.y,player1.height);
-    if(player1.x + player1.width>= platforms[0].x && player1.x<=platforms[4].x+platforms[4].width && player1.y>=platforms[0].y-player1.height && player1.y<=platforms[0].y+platforms[0].height-player1.height){
+    if(player1.x + player1.width>= platforms[0].x && player1.x<=platforms[4].x+platforms[4].width && player1.y>=platforms[0].y-player1.height && player1.y<=platforms[0].y+5-player1.height){
         return true;
     }
-    if(player1.x+ player1.width >= platforms[5].x && player1.x<=platforms[9].x+platforms[9].width && player1.y>=platforms[5].y-player1.height && player1.y<=platforms[5].y+platforms[5].height-player1.height){
+    if(player1.x+ player1.width >= platforms[5].x && player1.x<=platforms[9].x+platforms[9].width && player1.y>=platforms[5].y-player1.height && player1.y<=platforms[5].y+5-player1.height){
+        return true;
+    }
+    if(player1.x + player1.width>= platforms[0].x && player1.x<=platforms[4].x+platforms[4].width && player1.y>=platforms[10].y-player1.height && player1.y<=platforms[10].y+5-player1.height){
+        return true;
+    }
+    if(player1.x+ player1.width >= platforms[5].x && player1.x<=platforms[9].x+platforms[9].width && player1.y>=platforms[15].y-player1.height && player1.y<=platforms[15].y+5-player1.height){
         return true;
     }
 
@@ -85,6 +91,14 @@ spriteImages[6] = new Image();
 spriteImages[6].src = "images/ninja-i3.png";
 spriteImages[7] = new Image();
 spriteImages[7].src = "images/ninja-i4.png";
+spriteImages[8] = new Image();
+spriteImages[8].src = "images/ninja-5.png";
+spriteImages[9] = new Image();
+spriteImages[9].src = "images/ninja-6.png";
+spriteImages[10] = new Image();
+spriteImages[10].src = "images/ninja-7.png";
+spriteImages[11] = new Image();
+spriteImages[11].src = "images/ninja-8.png";
 
 //Game Objects
 fireBallImages= new Array();
@@ -316,6 +330,24 @@ var update = function(modifier) {
     else {
     player1.current=3;                 
     }
+    if(player1.isJumping){
+        player1.width=128;
+        player1.height=100;
+        if (player1.x%40 < 10){
+            player1.current=8;
+    
+        }
+        else if(player1.x%80 >=10 && player1.x%80<30){
+            player1.current=9;            
+        }
+        else if(player1.x%80 >=30 && player1.x%80<60){
+            player1.current=10;            
+        }
+        else {
+        player1.current=11;                 
+        }
+    }
+    
  }
 
 
