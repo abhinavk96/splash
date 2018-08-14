@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/CosmicCoder96/splash/issues"
   },
-  "homepage": "https://github.com/CosmicCoder96/splash#readme"
+  "homepage": "https://github.com/CosmicCoder96/splash#readme",
+  "dependencies": {
+    "socket.io": "^2.1.1"
+  }
 }
