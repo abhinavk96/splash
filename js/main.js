@@ -10,11 +10,29 @@ console.log("Canvas Created");
 //Backgorund image
 var gravity = true;
 
+isCollidigAbove = function() {
+    if(player1.x + player1.width >= platforms[0].x && player1.x<=platforms[4].x+platforms[4].width || player1.x >= platforms[5].x && player1.x<=platforms[9].x+platforms[9].width){
+        if(player1.y>platforms[0].y+platforms[0].height && player1.y<platforms[0].y+platforms[0].height +10 )
+        return true;
+    }
+    return false;
+}
+isPlayerOnSurface = function(){
+    console.log(player1.y,player1.height);
+    if(player1.x + player1.width>= platforms[0].x && player1.x<=platforms[4].x+platforms[4].width && player1.y>=platforms[0].y-player1.height && player1.y<=platforms[0].y+platforms[0].height-player1.height){
+        return true;
+    }
+    if(player1.x+ player1.width >= platforms[5].x && player1.x<=platforms[9].x+platforms[9].width && player1.y>=platforms[5].y-player1.height && player1.y<=platforms[5].y+platforms[5].height-player1.height){
+        return true;
+    }
+
+    return false;
+}
 
 isPlayerFalling = function() {
     console.log(player1.y);
     
-    if (player1.y < window.innerHeight - 200 - player1.height){
+    if (player1.y < window.innerHeight - 200 - player1.height && !isPlayerOnSurface()){
         return true;
         
     }
@@ -30,6 +48,12 @@ bgImage.onload = function () {
 }
 bgImage.src = "images/bg.jpg";
 
+var platformReady = false;
+var platform = new Image();
+platform.onload = function() {
+    platformReady = true;
+}
+platform.src = "images/hover-1.png"
 var groundReady = false;
 var ground = new Image();
 ground.onload = function() {
@@ -76,6 +100,128 @@ fireBallImages[4] = new Image();
 fireBallImages[4].src="images/fireball-i3.png" 
 fireBallImages[5] = new Image();
 fireBallImages[5].src="images/explosion-i1.png" 
+
+platforms = new Array();
+platforms[0] = {
+    x:200,
+    y:500,
+    width:100,
+    height:100
+};
+platforms[1] ={
+    x:300,
+    y:500,
+    width:100,
+    height:100
+}
+platforms[2] = {
+    x:400,
+    y:500,
+    width:100,
+    height:100
+}
+platforms[3] = {
+    x:500,
+    y:500,
+    width:100,
+    height:100
+}
+platforms[4] = {
+    x:600,
+    y:500,
+    width:100,
+    height:100
+}
+platforms[5] = {
+    x:900,
+    y:500,
+    width:100,
+    height:100
+}
+platforms[6] = {
+    x:1000,
+    y:500,
+    width:100,
+    height:100
+}
+platforms[7] = {
+    x:1100,
+    y:500,
+    width:100,
+    height:100
+}
+platforms[8] = {
+    x:1200,
+    y:500,
+    width:100,
+    height:100
+}
+platforms[9] = {
+    x:1300,
+    y:500,
+    width:100,
+    height:100
+}
+platforms[10] = {
+    x:200,
+    y:200,
+    width:100,
+    height:100
+};
+platforms[11] ={
+    x:300,
+    y:200,
+    width:100,
+    height:100
+}
+platforms[12] = {
+    x:400,
+    y:200,
+    width:100,
+    height:100
+}
+platforms[13] = {
+    x:500,
+    y:200,
+    width:100,
+    height:100
+}
+platforms[14] = {
+    x:600,
+    y:200,
+    width:100,
+    height:100
+}
+platforms[15] = {
+    x:900,
+    y:200,
+    width:100,
+    height:100
+}
+platforms[16] = {
+    x:1000,
+    y:200,
+    width:100,
+    height:100
+}
+platforms[17] = {
+    x:1100,
+    y:200,
+    width:100,
+    height:100
+}
+platforms[18] = {
+    x:1200,
+    y:200,
+    width:100,
+    height:100
+}
+platforms[19] = {
+    x:1300,
+    y:200,
+    width:100,
+    height:100
+}
 var player1 = {
     speed: 256,
     x:0,
@@ -120,7 +266,7 @@ addEventListener("keyup", function (e) {
 //update fuction
 var update = function(modifier) {
  if (38 in keysDown) {
-    if(!player1.isJumping || player1.jumpDuration){
+    if((!player1.isJumping || player1.jumpDuration)&&!isCollidigAbove()){
     player1.y -= player1.speed*4 * modifier;  
     player1.jumpDuration--;      
     }
@@ -238,6 +384,12 @@ var render = function () {
     }
     if (groundReady) {
     ctx.drawImage(ground, 0, window.innerHeight-200, window.innerWidth, 200);
+    }
+
+    if (platformReady) {
+        platforms.forEach(object => {
+        ctx.drawImage(platform, object.x, object.y, object.width, object.height);                    
+        });
     }
     // ctx.drawImage(ground, 0, window.innerHeight-200);    
     
