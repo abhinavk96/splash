@@ -9,6 +9,20 @@ console.log("Canvas Created");
 
 //Backgorund image
 var gravity = true;
+
+
+isPlayerFalling = function() {
+    console.log(player1.y);
+    
+    if (player1.y < window.innerHeight - 200 - player1.height){
+        return true;
+        
+    }
+    player1.isJumping = false;    
+    player1.jumpDuration=40;
+
+    return false;
+}
 var bgReady = false;
 var bgImage = new Image();
 bgImage.onload = function () {
@@ -70,7 +84,9 @@ var player1 = {
     width: 50,
     height: 100,
     directionLR:1,
-    current: 0
+    current: 0,
+    isJumping:false,
+    jumpDuration: 40
 }
 
 //Player input
@@ -104,10 +120,14 @@ addEventListener("keyup", function (e) {
 //update fuction
 var update = function(modifier) {
  if (38 in keysDown) {
-    player1.y -= player1.speed * modifier;
+    if(!player1.isJumping || player1.jumpDuration){
+    player1.y -= player1.speed*4 * modifier;  
+    player1.jumpDuration--;      
+    }
+    player1.isJumping = true;
  }
- if (40 in keysDown) {
-    player1.y += player1.speed * modifier;
+ if (40 in keysDown || isPlayerFalling()) {
+    player1.y += player1.speed *2* modifier;
  }
 
  if (70 in keysDown) {
