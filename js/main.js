@@ -31,6 +31,12 @@ fireBallImages[1] = new Image();
 fireBallImages[1].src="images/fireball-3.png" 
 fireBallImages[2] = new Image();
 fireBallImages[2].src="images/explosion-1.png" 
+fireBallImages[3] = new Image();
+fireBallImages[3].src="images/fireball-i2.png";
+fireBallImages[4] = new Image();
+fireBallImages[4].src="images/fireball-i3.png" 
+fireBallImages[5] = new Image();
+fireBallImages[5].src="images/explosion-i1.png" 
 var player1 = {
     speed: 256,
     x:0,
@@ -129,16 +135,24 @@ updateWeapons(modifier);
 var updateWeapons = function(modifier) {
     fireBalls.forEach(ball => {
         if(ball.active){
-        ball.x += (ball.speed*ball.direction*modifier);
+        
+        if(ball.direction){
+            ball.x += (ball.speed*modifier);
+            offset=0;
+        }
+        else{
+        ball.x -= (ball.speed*modifier);   
+        offset=3;         
+        }
 
         if (ball.x%8 < 4) {
-        ball.current= 0;
+        ball.current= 0 + offset;
         }
         else {
-            ball.current = 1;
+            ball.current = 1 + offset;
         }
         if (ball.x>canvas.width-220){
-            ball.current=2;
+            ball.current=2 + offset;
             ball.active = false;
             
         }
@@ -157,7 +171,7 @@ var destroy = function(object, array) {
 
 function launchFireBall(){
     var fireBall = {
-        speed:212,
+        speed:512,
         x:player1.x,
         y:player1.y,
         direction: player1.directionLR,
