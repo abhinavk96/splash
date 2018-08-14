@@ -25,13 +25,6 @@ isPlayerOnSurface = function(){
     if(player1.x+ player1.width >= platforms[5].x && player1.x<=platforms[9].x+platforms[9].width && player1.y>=platforms[5].y-player1.height && player1.y<=platforms[5].y+5-player1.height){
         return true;
     }
-    if(player1.x + player1.width>= platforms[0].x && player1.x<=platforms[4].x+platforms[4].width && player1.y>=platforms[10].y-player1.height && player1.y<=platforms[10].y+5-player1.height){
-        return true;
-    }
-    if(player1.x+ player1.width >= platforms[5].x && player1.x<=platforms[9].x+platforms[9].width && player1.y>=platforms[15].y-player1.height && player1.y<=platforms[15].y+5-player1.height){
-        return true;
-    }
-
     return false;
 }
 
@@ -176,66 +169,66 @@ platforms[9] = {
     width:100,
     height:100
 }
-platforms[10] = {
-    x:200,
-    y:200,
-    width:100,
-    height:100
-};
-platforms[11] ={
-    x:300,
-    y:200,
-    width:100,
-    height:100
-}
-platforms[12] = {
-    x:400,
-    y:200,
-    width:100,
-    height:100
-}
-platforms[13] = {
-    x:500,
-    y:200,
-    width:100,
-    height:100
-}
-platforms[14] = {
-    x:600,
-    y:200,
-    width:100,
-    height:100
-}
-platforms[15] = {
-    x:900,
-    y:200,
-    width:100,
-    height:100
-}
-platforms[16] = {
-    x:1000,
-    y:200,
-    width:100,
-    height:100
-}
-platforms[17] = {
-    x:1100,
-    y:200,
-    width:100,
-    height:100
-}
-platforms[18] = {
-    x:1200,
-    y:200,
-    width:100,
-    height:100
-}
-platforms[19] = {
-    x:1300,
-    y:200,
-    width:100,
-    height:100
-}
+// platforms[10] = {
+//     x:200,
+//     y:200,
+//     width:100,
+//     height:100
+// };
+// platforms[11] ={
+//     x:300,
+//     y:200,
+//     width:100,
+//     height:100
+// }
+// platforms[12] = {
+//     x:400,
+//     y:200,
+//     width:100,
+//     height:100
+// }
+// platforms[13] = {
+//     x:500,
+//     y:200,
+//     width:100,
+//     height:100
+// }
+// platforms[14] = {
+//     x:600,
+//     y:200,
+//     width:100,
+//     height:100
+// }
+// platforms[15] = {
+//     x:900,
+//     y:200,
+//     width:100,
+//     height:100
+// }
+// platforms[16] = {
+//     x:1000,
+//     y:200,
+//     width:100,
+//     height:100
+// }
+// platforms[17] = {
+//     x:1100,
+//     y:200,
+//     width:100,
+//     height:100
+// }
+// platforms[18] = {
+//     x:1200,
+//     y:200,
+//     width:100,
+//     height:100
+// }
+// platforms[19] = {
+//     x:1300,
+//     y:200,
+//     width:100,
+//     height:100
+// }
 var player1 = {
     speed: 256,
     x:0,
