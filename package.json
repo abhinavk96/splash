@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/CosmicCoder96/splash#readme",
   "dependencies": {
+    "express": "^4.16.3",
     "socket.io": "^2.1.1"
   }
 }
