@@ -8,6 +8,7 @@ document.body.appendChild(canvas);
 console.log("Canvas Created");
 var socket = io();
 //Backgorund image
+
 var gravity = true;
 
 isCollidigAbove = function() {
@@ -39,7 +40,7 @@ isPlayerFalling = function() {
     return false;
 }
 
-var player2Ready = true;
+var player2Ready = false;
 var bgReady = false;
 var bgImage = new Image();
 bgImage.onload = function () {
@@ -384,7 +385,17 @@ socket.emit('clientData', {
     player: player1
 });
 }
+socket.on('serverData', function(data){
+            // console.log(data.player);
+            player2=data.player;
+            loadPlayer2();
 
+        });
+var loadPlayer2=function(){
+    setTimeout(function(){
+        player2Ready=true;
+    },1000);
+}
 var updateWeapons = function(modifier) {
     fireBalls.forEach(ball => {
         if(ball.active){
@@ -495,7 +506,7 @@ var render = function () {
 var main = function () {
 	var now = Date.now();
     var delta = now - then;
-	update(delta / 1000);
+    update(delta / 1000);
 	render();
 	then = now;
 	requestAnimationFrame(main);

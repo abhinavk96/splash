@@ -13,11 +13,25 @@ var io = require('socket.io')(serv, {});
 var SOCKETS_LIST={};
 var playerCount=0;
 io.sockets.on('connection', function(socket){
+    playerCount++;
     console.log("Player "+playerCount+" connected");
+    socket.id = Math.floor(Math.random()*10);
+    SOCKETS_LIST[playerCount] = socket;
     socket.on('clientData', function(data){
-        console.log(data.player);
+        // console.log(data.player);
+        socket.player = data.player;
+        if(playerCount==2){
+            if(SOCKETS_LIST[1]){
+            SOCKETS_LIST[1].emit('serverData', {
+                player:SOCKETS_LIST[2].player
+            });
+            SOCKETS_LIST[2].emit('serverData', {
+                player:SOCKETS_LIST[1].player
+            });
+        }}
     });
-    socket.emit('serverData', {
-        title:'server'
-    });
-})
+});
+
+// setInterval(function(){
+
+// },100);
