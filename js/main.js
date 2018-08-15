@@ -18,7 +18,6 @@ isCollidigAbove = function() {
     return false;
 }
 isPlayerOnSurface = function(){
-    console.log(player1.y,player1.height);
     if(player1.x + player1.width>= platforms[0].x && player1.x<=platforms[4].x+platforms[4].width && player1.y>=platforms[0].y-player1.height && player1.y<=platforms[0].y+5-player1.height){
         return true;
     }
@@ -29,7 +28,6 @@ isPlayerOnSurface = function(){
 }
 
 isPlayerFalling = function() {
-    console.log(player1.y);
     
     if (player1.y < window.innerHeight - 200 - player1.height && !isPlayerOnSurface()){
         return true;
@@ -248,15 +246,19 @@ var player1 = {
     directionLR:1,
     current: 0,
     isJumping:false,
-    jumpDuration: 40
+    jumpDuration: 40,
+    health:100
 }
 
+
+//Collision Module
+var collisonList = []
+collisonList.push(player1);
 //Player input
 var keysDown = {};
 var fireBalls = [];
 var fireBallActive=false;
 addEventListener("keydown", function (e) {
-    console.log(e.keyCode);
 	keysDown[e.keyCode] = true;
 }, false);
 
@@ -284,6 +286,7 @@ addEventListener("keyup", function (e) {
 
 //update fuction
 var update = function(modifier) {
+    checkCollison();
  if (38 in keysDown) {
     if((!player1.isJumping || player1.jumpDuration)&&!isCollidigAbove()){
     player1.y -= player1.speed*4 * modifier;  
@@ -299,7 +302,8 @@ var update = function(modifier) {
     if(!fireBallActive) {
     newFireBall = launchFireBall();
     fireBalls.push(newFireBall);
-    console.log("Ball fired");
+    collisonList.push(newFireBall);
+    console.log("Ball fired",fireBalls,collisonList);
     fireBallActive = true;
     if(player1.directionLR){
         player1.current=1;
@@ -374,45 +378,71 @@ var update = function(modifier) {
 
 
 updateWeapons(modifier);
-
  
 }
 
 var updateWeapons = function(modifier) {
     fireBalls.forEach(ball => {
         if(ball.active){
+        // console.log("in motion");
+        if(!ball.exploding){
+            if(ball.direction){
+                ball.x += (ball.speed*modifier);
+                offset=0;
+            }
+            else{
+            ball.x -= (ball.speed*modifier);   
+            offset=3;         
+            }
+    
+            if (ball.x%8 < 4) {
+            ball.current= 0 + offset;
+            }
+            else {
+                ball.current = 1 + offset;
+            }
+            if (ball.x>canvas.width-220){
+                ball.current=2 + offset;
+                ball.exploding= true;
+                setTimeout(function(){
+                    ball.active = false;
+                }, 1000);
+                
+            }
+        }
         
-        if(ball.direction){
-            ball.x += (ball.speed*modifier);
-            offset=0;
-        }
-        else{
-        ball.x -= (ball.speed*modifier);   
-        offset=3;         
-        }
-
-        if (ball.x%8 < 4) {
-        ball.current= 0 + offset;
-        }
-        else {
-            ball.current = 1 + offset;
-        }
-        if (ball.x>canvas.width-220){
-            ball.current=2 + offset;
-            ball.active = false;
-            
-        }
+        // console.log('end');
+        // console.log(ball);
+        
     }
     else {
-        // destroy(ball, fireBalls);
+        console.log('not active');
+        destroy(ball, fireBalls);
+        destroy(ball, collisonList);
     }
     });
 }
 
 var destroy = function(object, array) {
-    setInterval(function(){
+    // setTimeout(function(){
+        console.log(array.indexOf(object));
         array.splice(array.indexOf(object),1);        
-    }, 1000);
+    // }, 1000);
+}
+
+var checkCollison = function(object) {
+    for(i=0;i<collisonList.length;i++){
+        for (j=i+1;j<collisonList.length;j++){
+            if (
+                collisonList[i].x <= (collisonList[j].x + 32)
+                && collisonList[j].x <= (collisonList[i].x + 32)
+                && collisonList[i].y <= (collisonList[j].y + 32)
+                && collisonList[j].y <= (collisonList[i].y + 32)
+            ){
+                console.log('Collision');
+            }
+        }
+    }
 }
 
 function launchFireBall(){
@@ -422,9 +452,11 @@ function launchFireBall(){
         y:player1.y,
         direction: player1.directionLR,
         current: 0,
-        active:true
+        active:true,
+        exploding: false,
+        entity: 'fireball',
+        id:Math.random()
     }
-    console.log("should get drawn");
     return fireBall;
 }
 
