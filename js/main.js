@@ -274,6 +274,9 @@ addEventListener("keyup", function (e) {
         },600);
         
     }
+    if (e.keyCode == 38) {
+        player1.isJumping = false;
+    }
     delete keysDown[e.keyCode];
     
 }, false);
