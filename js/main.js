@@ -92,6 +92,15 @@ spriteImages[10] = new Image();
 spriteImages[10].src = "images/ninja-7.png";
 spriteImages[11] = new Image();
 spriteImages[11].src = "images/ninja-8.png";
+spriteImages[12] = new Image();
+spriteImages[12].src = "images/ninja-i5.png";
+spriteImages[13] = new Image();
+spriteImages[13].src = "images/ninja-i6.png";
+spriteImages[14] = new Image();
+spriteImages[14].src = "images/ninja-i7.png";
+spriteImages[15] = new Image();
+spriteImages[15].src = "images/ninja-i8.png";
+
 
 //Game Objects
 fireBallImages= new Array();
@@ -309,6 +318,23 @@ var update = function(modifier) {
     }
     else {
     player1.current=7;          
+    }
+    if(player1.isJumping){
+        player1.width=128;
+        player1.height=100;
+        if (player1.x%40 < 10){
+            player1.current=12;
+    
+        }
+        else if(player1.x%80 >=10 && player1.x%80<30){
+            player1.current=13;            
+        }
+        else if(player1.x%80 >=30 && player1.x%80<60){
+            player1.current=14;            
+        }
+        else {
+        player1.current=15;                 
+        }
     }
  }
  if (39 in keysDown) {
