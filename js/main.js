@@ -448,8 +448,8 @@ var checkCollison = function(object) {
 function launchFireBall(){
     var fireBall = {
         speed:512,
-        x:player1.x,
-        y:player1.y,
+        x:player1.x+32*(player1.directionLR?1:-1),
+        y:player1.y+32*(player1.directionLR?1:-1),
         direction: player1.directionLR,
         current: 0,
         active:true,
