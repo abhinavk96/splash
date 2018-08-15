@@ -260,6 +260,7 @@ collisonList.push(player1);
 //Player input
 var keysDown = {};
 var fireBalls = [];
+var OpponentFireBalls = [];
 var fireBallActive=false;
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
@@ -382,12 +383,15 @@ var update = function(modifier) {
 
 updateWeapons(modifier);
 socket.emit('clientData', {
-    player: player1
+    player: player1,
+    fireballs: fireBalls
 });
 }
 socket.on('serverData', function(data){
             // console.log(data.player);
             player2=data.player;
+            OpponentFireBalls = data.fireballs;
+            console.log()
             loadPlayer2();
 
         });
@@ -484,7 +488,10 @@ var render = function () {
 		ctx.drawImage(spriteImages[player1.current], player1.x, player1.y, player1.width, player1.height);
     }
     if (player2Ready) {
-		ctx.drawImage(spriteImages[player2.current], player2.x, player2.y, player2.width, player2.height);
+        ctx.drawImage(spriteImages[player2.current], player2.x, player2.y, player2.width, player2.height);
+        OpponentFireBalls.forEach(ball => {
+            ctx.drawImage(fireBallImages[ball.current], ball.x, ball.y);            
+        });
     }
     if (groundReady) {
     ctx.drawImage(ground, 0, window.innerHeight-200, window.innerWidth, 200);

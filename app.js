@@ -20,13 +20,17 @@ io.sockets.on('connection', function(socket){
     socket.on('clientData', function(data){
         // console.log(data.player);
         socket.player = data.player;
+        socket.fireballs = data.fireballs;
         if(playerCount==2){
             if(SOCKETS_LIST[1]){
             SOCKETS_LIST[1].emit('serverData', {
-                player:SOCKETS_LIST[2].player
+                player:SOCKETS_LIST[2].player,
+                fireballs:SOCKETS_LIST[2].fireballs
             });
             SOCKETS_LIST[2].emit('serverData', {
-                player:SOCKETS_LIST[1].player
+                player:SOCKETS_LIST[1].player,
+                fireballs:SOCKETS_LIST[1].fireballs
+                
             });
         }}
     });
