@@ -434,12 +434,12 @@ var checkCollison = function(object) {
     for(i=0;i<collisonList.length;i++){
         for (j=i+1;j<collisonList.length;j++){
             if (
-                collisonList[i].x <= (collisonList[j].x + 32)
-                && collisonList[j].x <= (collisonList[i].x + 32)
-                && collisonList[i].y <= (collisonList[j].y + 32)
-                && collisonList[j].y <= (collisonList[i].y + 32)
+                collisonList[i].x <= (collisonList[j].x + 150)
+                && collisonList[j].x <= (collisonList[i].x + 150)
+                && collisonList[i].y <= (collisonList[j].y + 150)
+                && collisonList[j].y <= (collisonList[i].y + 150)
             ){
-                console.log('Collision');
+                console.log('Collision between: ',collisonList[i],collisonList[j]);
             }
         }
     }
@@ -447,7 +447,7 @@ var checkCollison = function(object) {
 
 function launchFireBall(){
     var fireBall = {
-        speed:512,
+        speed:12,
         x:player1.x+32*(player1.directionLR?1:-1),
         y:player1.y+32*(player1.directionLR?1:-1),
         direction: player1.directionLR,
