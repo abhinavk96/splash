@@ -116,7 +116,7 @@ fireBallImages[3].src="images/fireball-i2.png";
 fireBallImages[4] = new Image();
 fireBallImages[4].src="images/fireball-i3.png" 
 fireBallImages[5] = new Image();
-fireBallImages[5].src="images/explosion-i1.png" 
+fireBallImages[5].src="images/explosion-1.png" 
 
 platforms = new Array();
 platforms[0] = {
@@ -393,7 +393,9 @@ socket.on('serverData', function(data){
             OpponentFireBalls = data.fireballs;
             console.log()
             loadPlayer2();
-
+            if(player2Ready){
+        updateCollisionList();                        
+            }
         });
 var loadPlayer2=function(){
     setTimeout(function(){
@@ -420,7 +422,7 @@ var updateWeapons = function(modifier) {
             else {
                 ball.current = 1 + offset;
             }
-            if (ball.x>canvas.width-220){
+            if (ball.x>canvas.width-220 || ball.collide){
                 ball.current=2 + offset;
                 ball.exploding= true;
                 setTimeout(function(){
@@ -441,6 +443,10 @@ var updateWeapons = function(modifier) {
     }
     });
 }
+ var explode = function(ball){
+     
+    ball.collide=true;
+ }
 
 var destroy = function(object, array) {
     // setTimeout(function(){
@@ -458,15 +464,35 @@ var checkCollison = function(object) {
                 && collisonList[i].y <= (collisonList[j].y + 150)
                 && collisonList[j].y <= (collisonList[i].y + 150)
             ){
+                if(collisonList[i].entity=='fireball' && collisonList[j].entity=='fireball'){
                 console.log('Collision between: ',collisonList[i],collisonList[j]);
+                explode(collisonList[i]);
+                }             
             }
         }
     }
 }
 
+var updateCollisionList = function(){
+    collisonList = [];
+    collisonList.push(player1);
+    if(player2){
+    collisonList.push(player2);
+    }
+    else {
+        player2Ready =false;
+    }
+    fireBalls.forEach(ball=>{
+        collisonList.push(ball);
+    });
+    if(OpponentFireBalls)
+    OpponentFireBalls.forEach(ball=>{
+        collisonList.push(ball);
+    });
+}
 function launchFireBall(){
     var fireBall = {
-        speed:412,
+        speed:12,
         x:player1.x+32*(player1.directionLR?1:-1),
         y:player1.y+32*(player1.directionLR?1:-1),
         direction: player1.directionLR,
@@ -474,6 +500,7 @@ function launchFireBall(){
         active:true,
         exploding: false,
         entity: 'fireball',
+        collide:false,
         id:Math.random()
     }
     return fireBall;
@@ -487,7 +514,7 @@ var render = function () {
     if (spriteReady) {
 		ctx.drawImage(spriteImages[player1.current], player1.x, player1.y, player1.width, player1.height);
     }
-    if (player2Ready) {
+    if (player2Ready&&player2) {
         ctx.drawImage(spriteImages[player2.current], player2.x, player2.y, player2.width, player2.height);
         OpponentFireBalls.forEach(ball => {
             ctx.drawImage(fireBallImages[ball.current], ball.x, ball.y);            
