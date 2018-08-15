@@ -7,7 +7,7 @@ app.get('/', function(req, res){
 
 });
 app.use('/', express.static(__dirname+'/'));
-serv.listen(2000);
+serv.listen(process.env.PORT || 2000);
 console.log("Server Started");
 var io = require('socket.io')(serv, {});
 var SOCKETS_LIST={};
