@@ -6,7 +6,7 @@ canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 document.body.appendChild(canvas);
 console.log("Canvas Created");
-
+var socket = io();
 //Backgorund image
 var gravity = true;
 
@@ -38,6 +38,8 @@ isPlayerFalling = function() {
 
     return false;
 }
+
+var player2Ready = true;
 var bgReady = false;
 var bgImage = new Image();
 bgImage.onload = function () {
@@ -378,7 +380,9 @@ var update = function(modifier) {
 
 
 updateWeapons(modifier);
- 
+socket.emit('clientData', {
+    player: player1
+});
 }
 
 var updateWeapons = function(modifier) {
@@ -468,6 +472,9 @@ var render = function () {
     if (spriteReady) {
 		ctx.drawImage(spriteImages[player1.current], player1.x, player1.y, player1.width, player1.height);
     }
+    if (player2Ready) {
+		ctx.drawImage(spriteImages[player2.current], player2.x, player2.y, player2.width, player2.height);
+    }
     if (groundReady) {
     ctx.drawImage(ground, 0, window.innerHeight-200, window.innerWidth, 200);
     }
@@ -487,12 +494,13 @@ var render = function () {
 
 var main = function () {
 	var now = Date.now();
-	var delta = now - then;
+    var delta = now - then;
 	update(delta / 1000);
 	render();
 	then = now;
 	requestAnimationFrame(main);
 };
+
 
 var then = Date.now();
     main();
