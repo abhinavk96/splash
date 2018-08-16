@@ -493,7 +493,7 @@ var updateCollisionList = function(){
 }
 function launchFireBall(){
     var fireBall = {
-        speed:12,
+        speed:212,
         x:player1.x+32*(player1.directionLR?1:-1),
         y:player1.y+32*(player1.directionLR?1:-1),
         direction: player1.directionLR,
