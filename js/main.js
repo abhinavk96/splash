@@ -392,6 +392,7 @@ socket.on('serverData', function(data){
             player2=data.player;
             OpponentFireBalls = data.fireballs;
             console.log()
+            if(!player2Ready)
             loadPlayer2();
             if(player2Ready){
         updateCollisionList();                        
